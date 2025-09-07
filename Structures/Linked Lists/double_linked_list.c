@@ -95,7 +95,7 @@ void show_double_linked_list(t_list *plista) {
 int main() {
     t_list *plista = (t_list *)malloc(sizeof(t_list));
     node *a = (node *)malloc(sizeof(node));
-    if (!a) {
+    if (!a || !plista) {
         perror("malloc failed");
         exit(1);
     }
