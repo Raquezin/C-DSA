@@ -58,6 +58,10 @@ node *add_element(node *element, int val) {
 }
 
 void delete_element(node *element) {
+    if (element == NULL) {
+        return;
+    }
+    
     t_list *plista = element->data;
     if (element == plista->head) {
         plista->head = element->next;
@@ -84,6 +88,10 @@ void delete_element(node *element) {
 }
 
 void free_double_linked_list(node *element) {
+    if (element == NULL) {
+        return;
+    }
+    
     t_list *plista = element->data;
     node *current = element;
     node *past = element->prev;
@@ -104,6 +112,9 @@ void free_double_linked_list(node *element) {
 }
 
 void show_double_linked_list(node *element) {
+    if (element == NULL) {
+        return;
+    }
     element = element->data->head;
 
     printf("head: %p, tail: %p, size:%d\n", 
