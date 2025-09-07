@@ -68,33 +68,33 @@ gcc --version
 
 1. Clone this repository:
 
-```bash
-    git clone https://github.com/Raquezin/C-DSA.git
-```
+  ```bash
+  git clone https://github.com/Raquezin/C-DSA.git
+  ```
 
-1. Navigate to the project directory:
+2. Navigate to the project directory:
 
-```bash
-    cd C-DSA
-```
+  ```bash
+  cd C-DSA
+  ```
 
-1. Navigate to the folder of the data structure or algorithm you want to test:
+3. Navigate to the folder of the data structure or algorithm you want to test:
 
-```bash
-    cd folder
-```
+  ```bash
+  cd folder
+  ```
 
-1. Compile the `.c` file along with its `main.c` test file:
+4. Compile the `.c` file along with its `main.c` test file:
 
-```bash
-    gcc -o my_program main.c stack_array.c -Wall -Wextra -pedantic
-```
+  ```bash
+  gcc -o my_program main.c stack_array.c -Wall -Wextra -pedantic
+  ```
 
-1. Run the compiled program:
+5. Run the compiled program:
 
-```bash
-    ./my_program
-```
+  ```bash
+  ./my_program
+  ```
 
 ## 🤝 How to Contribute
 
