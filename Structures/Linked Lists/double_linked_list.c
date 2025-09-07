@@ -1,29 +1,46 @@
 #include "stdio.h"
 #include "stdlib.h"
 
+struct node;
+
+typedef struct list {
+    struct node *head;
+    struct node *tail;
+    int size;
+} t_list;
+
 typedef struct node {
     int val;
     struct node *next;
     struct node *prev;
+    t_list *data;
 } node;
 
-typedef struct list {
-    node *head;
-    node *tail;
-    int size;
-} t_list;
+t_list *init_plista(){
+    t_list *plista = (t_list*)malloc(sizeof(t_list));
+    if (!plista) {
+        perror("malloc failed");
+        exit(1);
+    }
+    plista->size = 0;
+    plista->head = plista->tail = NULL;
+    return plista;
+}
 
-node *add_element(node *element, int val, t_list *plista) {
+node *add_element(node *element, int val) {
+    t_list *plista;
     node *new = (node *)malloc(sizeof(node));
     if (!new) {
         perror("malloc failed");
         exit(1);
     }
 
-    if (plista->size == 0) {
+    if (element == NULL) {
+        plista = init_plista();
         plista -> head = plista -> tail = new;
         new -> next = new -> prev = NULL;
     } else { 
+        plista = element->data;
         if (element == plista->tail) {
                 plista->tail = new;
             } else {
@@ -35,17 +52,23 @@ node *add_element(node *element, int val, t_list *plista) {
     }
         
     new->val = val;
+    new->data = plista;
     plista->size += 1;
     return new;
 }
 
-void delete_element(node *element, t_list *plista) {
+void delete_element(node *element) {
+    t_list *plista = element->data;
     if (element == plista->head) {
         plista->head = element->next;
-        plista->head->prev = NULL;
+        if (plista->head != NULL){
+            plista->head->prev = NULL;
+        }
     } else if (element == plista->tail) {
         plista->tail = element->prev;
-        plista->tail->next = NULL;
+        if (plista->tail != NULL){
+            plista->tail->next = NULL;
+        }
     } else {
         element->prev->next = element->next;
         element->next->prev = element->prev;
@@ -60,7 +83,8 @@ void delete_element(node *element, t_list *plista) {
     }
 }
 
-void free_double_linked_list(node *element, t_list *plista) {
+void free_double_linked_list(node *element) {
+    t_list *plista = element->data;
     node *current = element;
     node *past = element->prev;
     
@@ -79,18 +103,13 @@ void free_double_linked_list(node *element, t_list *plista) {
     free(plista);
 }
 
-void show_double_linked_list(t_list *plista) {
-    node *element;
-    if (plista->size > 0) {
-        element = plista->head;
-    } else {
-        perror("La lista no tiene elementos");
-    }
-    
+void show_double_linked_list(node *element) {
+    element = element->data->head;
+
     printf("head: %p, tail: %p, size:%d\n", 
-    (void*)plista->head, 
-    (void*)plista->tail, 
-    plista->size);
+    (void*)element->data->head, 
+    (void*)element->data->tail, 
+    element->data->size);
     
     printf("Start\n");
     while (element != NULL) {
@@ -103,32 +122,25 @@ void show_double_linked_list(t_list *plista) {
 }
 
 int main() {
-    t_list *plista = (t_list *)malloc(sizeof(t_list));
-    if (!plista) {
-        perror("malloc failed");
-        exit(1);
-    }
+    node *a = add_element(NULL, 1);    
+    node *b = add_element(a, 2);
 
-    plista->head = NULL;
-    plista->tail = NULL;
-    plista->size = 0;
+    show_double_linked_list(a);
+    t_list *data = a->data;
+    delete_element(data->head);
+    show_double_linked_list(data->head);
+    delete_element(data->head);
+    a = b = NULL;
+    data = NULL;
 
-    node *a = add_element(NULL, 1, plista);
-    node *b = add_element(a, 2, plista);
-    node *c = add_element(b, 3, plista);
-    node *d = add_element(c, 4, plista);
-    add_element(a, 50, plista);
-    node *e = add_element(d, 5, plista);
-    node *f = add_element(e, 6, plista);
-
-    show_double_linked_list(plista);
+    node *c = add_element(NULL, 3);
+    node *d = add_element(c, 3);
+    node *e = add_element(d, 4);
+    add_element(c, 50);
+    node *f = add_element(e, 5);
+    node *g = add_element(f, 6);
     
-    delete_element(plista->head, plista);
-    delete_element(plista->tail, plista);
-    delete_element(plista->head->next, plista);
-
-    show_double_linked_list(plista);
-    free_double_linked_list(e, plista);
-
+    show_double_linked_list(c);
+    free_double_linked_list(f);
     return 0;
 }
