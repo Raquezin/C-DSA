@@ -87,7 +87,7 @@ gcc --version
 1. Compile the `.c` file along with its `main.c` test file:
 
 ```bash
-    gcc -o my_program main.c stack_array.c -Wall
+    gcc -o my_program main.c stack_array.c -Wall -Wextra -pedantic
 ```
 
 1. Run the compiled program:
