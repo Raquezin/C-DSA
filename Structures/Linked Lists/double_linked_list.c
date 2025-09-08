@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include <stdarg.h>
 
 struct node;
 
@@ -27,33 +28,43 @@ t_list *init_plista(){
     return plista;
 }
 
-node *add_element(node *element, int val) {
+node *add_element(node *element, int count, ...) {
     t_list *plista;
-    node *new = (node *)malloc(sizeof(node));
-    if (!new) {
-        perror("malloc failed");
-        exit(1);
-    }
+    node *new;
+    int val;
 
-    if (element == NULL) {
-        plista = init_plista();
-        plista -> head = plista -> tail = new;
-        new -> next = new -> prev = NULL;
-    } else { 
-        plista = element->data;
-        if (element == plista->tail) {
-                plista->tail = new;
-            } else {
-                element->next->prev = new;
-            }
-            new->next = element->next;
-            new->prev = element;
-            element->next = new;
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; i++) {
+        val = va_arg(args, int);
+        new = (node *)malloc(sizeof(node));
+        if (!new) {
+            perror("malloc failed");
+            exit(1);
+        }
+
+        if (element == NULL) {
+            plista = init_plista();
+            plista -> head = plista -> tail = new;
+            new -> next = new -> prev = NULL;
+        } else { 
+            plista = element->data;
+            if (element == plista->tail) {
+                    plista->tail = new;
+                } else {
+                    element->next->prev = new;
+                }
+                new->next = element->next;
+                new->prev = element;
+                element->next = new;
+        }  
+        new->val = val;
+        new->data = plista;
+        plista->size += 1;
+        element = new;
     }
-        
-    new->val = val;
-    new->data = plista;
-    plista->size += 1;
+    va_end(args);
     return new;
 }
 
@@ -133,25 +144,23 @@ void show_double_linked_list(node *element) {
 }
 
 int main() {
-    node *a = add_element(NULL, 1);    
-    node *b = add_element(a, 2);
+    node *a = add_element(NULL, 5, 1, 2, 3, 4, 5);    
+    node *b = add_element(a, 1, 2);
 
     show_double_linked_list(a);
     t_list *data = a->data;
     delete_element(data->head);
-    show_double_linked_list(data->head);
     delete_element(data->head);
     a = b = NULL;
-    data = NULL;
 
-    node *c = add_element(NULL, 3);
-    node *d = add_element(c, 3);
-    node *e = add_element(d, 4);
-    add_element(c, 50);
-    node *f = add_element(e, 5);
-    node *g = add_element(f, 6);
+    node *c = add_element(data->head, 1, 51);
+    node *d = add_element(c, 1, 52);
+    node *e = add_element(d, 1, 53);
+    add_element(c, 1, 54);
+    node *f = add_element(e, 1, 55);
+    node *g = add_element(f, 1, 56);
     
-    show_double_linked_list(c);
-    free_double_linked_list(f);
+    show_double_linked_list(data->head);
+    free_double_linked_list(data->head);
     return 0;
 }
