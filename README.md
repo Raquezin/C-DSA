@@ -20,8 +20,8 @@ Below is a list of the structures and algorithms you will find in this repositor
 ### Data Structures
 
 - **Linked Lists**
-  - [ ] Singly Linked List
-  - [ ] Doubly Linked List
+  - [x] Singly Linked List
+  - [x] Doubly Linked List
   - [ ] Circular Linked List
 - **Stacks**
   - [ ] Array-based Implementation
