@@ -19,47 +19,48 @@ node *add_element(node *element, int val, t_list *plista) {
         exit(1);
     }
     
-    new -> val = val;
-    new -> next = element -> next;
-    element -> next = new;
-    plista -> size += 1;
+    new->val = val;
+    new->next = element->next;
+    element->next = new;
+    plista->size += 1;
     return new;
 }
 
 void delete_by_value(int val, t_list *plista) {
-    node *element = plista -> head;
+    node *element = plista->head;
     node *prev = element;
 
     while (element != NULL) {
-        if (element -> val == val) {
-            if (element == plista -> head) {
-                plista -> head = element -> next;
+        if (element->val == val) {
+            if (element == plista->head) {
+                plista->head = element->next;
             }
-            prev -> next = element -> next;
+            prev->next = element->next;
             free(element);
             break;
         } else {
             prev = element;
-            element = element -> next;
+            element = element->next;
         }
     }
-    plista -> size -= 1;
+    plista->size -= 1;
 }
 
 void delete_next(node *element, t_list *plista) {
-    node *delete = element -> next;
+    node *delete = element->next;
     if (delete != NULL){
-        element -> next = delete -> next;
-        plista -> size -= 1;
+        element->next = delete->next;
+        plista->size -= 1;
         free(delete);
-    } 
+    }
+
 }
 
 void free_linked_list(t_list *plista) {
-    node *element = plista -> head;
+    node *element = plista->head;
     
     while (element != NULL) {
-        node *next = element -> next;
+        node *next = element->next;
         free(element);
         element = next;
     }
@@ -69,22 +70,22 @@ void free_linked_list(t_list *plista) {
 void show_linked_list(t_list *plista) {
     node *element;
 
-    if (plista -> size > 0) {
-        element = plista -> head;
+    if (plista->size > 0) {
+        element = plista->head;
     } else {
         perror("La lista no tiene elementos");
     }
     
     printf("head: %p, size:%d\n", 
-    (void*)plista -> head, 
-    plista -> size);
+    (void*)plista->head, 
+    plista->size);
 
     printf("Start\n");
     while (element != NULL) {
         printf("current: %p, next:%p, val:%d\n", 
-            (void*)element, (void*)element -> next, element -> val
+            (void*)element, (void*)element->next, element->val
         );
-        element = element -> next;
+        element = element->next;
     }
     printf("End\n");
 }
@@ -96,10 +97,10 @@ int main() {
         perror("malloc failed");
         exit(1);
     }
-    a -> next = NULL;
-    a -> val = 1;
-    plista -> head = a;
-    plista -> size = 1;
+    a->next = NULL;
+    a->val = 1;
+    plista->head = a;
+    plista->size = 1;
 
     node *b = add_element(a, 2, plista);
     node *c = add_element(b, 3, plista);
